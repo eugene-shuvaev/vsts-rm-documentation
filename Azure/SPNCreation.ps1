@@ -21,6 +21,7 @@ $newguid = [guid]::NewGuid()
 $displayName = [String]::Format("VSTS.{0}.{1}", $userName, $newguid)
 $homePage = "http://" + $displayName
 $identifierUri = $homePage
+$secureStringPassword = ConvertTo-SecureString -String $password -AsPlainText -Force
 
 
 #Initialize subscription
@@ -42,7 +43,7 @@ $id = $azureSubscription.SubscriptionId
 
 #Create a new AD Application
 Write-Output "Creating a new Application in AAD (App URI - $identifierUri)" -Verbose
-$azureAdApplication = New-AzureRmADApplication -DisplayName $displayName -HomePage $homePage -IdentifierUris $identifierUri -Password $password -Verbose
+$azureAdApplication = New-AzureRmADApplication -DisplayName $displayName -HomePage $homePage -IdentifierUris $identifierUri -Password $secureStringPassword -Verbose
 $appId = $azureAdApplication.ApplicationId
 Write-Output "Azure AAD Application creation completed successfully (Application Id: $appId)" -Verbose
 
